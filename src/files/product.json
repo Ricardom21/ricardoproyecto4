@@ -1,0 +1,29 @@
+[
+{
+    "id":1,
+    "title": "Wisky",
+    "description": "12 años",
+    "price": 3000,
+    "thumbnail": "img1-jpg",
+    "code": "w2",
+    "stock": 20
+},
+{
+    "id":2,
+    "title": "Cerveza",
+    "description": "solera",
+    "price": 2000,
+    "thumbnail": "img2-jpg",
+    "code": "w3",
+    "stock": 30
+},
+{
+    "id":3,
+    "title": "Ron",
+    "description": "Gran Reserva",
+    "price": 1000,
+    "thumbnail": "img3-jpg",
+    "code": "w5",
+    "stock": 40
+}
+]
