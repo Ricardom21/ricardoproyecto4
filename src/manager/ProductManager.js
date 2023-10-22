@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-class ProductManager {
+class productManager {
   constructor(filePath = 'product.json') {
     this.path = filePath;
     this.products = [];
@@ -83,4 +83,4 @@ class ProductManager {
   }
 }
 
-export default ProductManager;
+export default productManager;

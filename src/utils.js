@@ -1,19 +1,12 @@
-import express from 'express';
-import { uploader } from './multerConfig'; 
+import multer from 'multer'
 
-const app = express();
+const storage = multer.diskStorage({
+    destination: (req,file,cb) => {
+        cb(null, './src/public/images')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+})
 
-// Ruta para subir una imagen
-app.post('/api/upload', uploader.single('image'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: 'No se ha proporcionado ninguna imagen.' });
-  }
-
-  const imageUrl = `http://tu-sitio-web.com/images/${req.file.originalname}`;
-  res.json({ imageUrl });
-});
-
-const PORT = 8080;
-app.listen(PORT, () => {
-  console.log(`Servidor Express escuchando en el puerto ${PORT}`);
-});
+export const uploader = multer({storage})

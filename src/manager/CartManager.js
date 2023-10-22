@@ -1,7 +1,7 @@
 import fs from 'fs';
-import ProductManager from './ProductManager';
 
-class CartManager {
+
+class cartManager {
   constructor(filePath = 'carts.json') {
     this.path = filePath;
     this.carts = [];
@@ -70,4 +70,4 @@ class CartManager {
   }
 }
 
-export default CartManager;
+export default cartManager;
