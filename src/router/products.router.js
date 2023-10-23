@@ -1,46 +1,80 @@
-import express from 'express';
-import ProductManager from './src/manager/productManager.js';
+import { Router } from "express";
+import ProductManager from "../managers/ProductManager.js";
+import { uploader } from "../utils.js";
 
-const productsRouter = express.Router();
-const productManager = new ProductManager(); 
+const router = Router()
+const productManager = new ProductManager()
 
-// Ruta raíz GET /api/products/
-productsRouter.get('/', (req, res) => {
-  const products = productManager.getProducts();
-  res.json(products);
-});
+router.get('/', async (req,res) =>{
+    try{
+        const limit = parseInt(req.query?.limit)
+        const products = await productManager.getProducts(limit)
+        res.send(products)
 
-// Ruta GET /api/products/:pid
-productsRouter.get('/:pid', (req, res) => {
-  const productId = parseInt(req.params.pid);
-  const product = productManager.getProductById(productId);
-  if (product) {
-    res.json(product);
-  } else {
-    res.status(404).json({ error: `Producto con ID ${productId} no encontrado.` });
-  }
-});
+    } catch (err) {
+        res.status(500).send("Error al obtener los productos" + err)
+    }
+})
 
-// Ruta raíz POST /api/products/
-productsRouter.post('/', (req, res) => {
-  const newProduct = req.body;
-  productManager.addProduct(newProduct);
-  res.status(201).json(newProduct);
-});
+router.get('/:id', async (req,res) => {
+    try{
+        const id = parseInt(req.params.id)
+        const producto = await productManager.getProductById(id)
+        res.send(producto)
+    } catch (err) {
+        res.status(500).send("Error al obtener el producto: " + err)
+    }
+})
 
-// Ruta PUT /api/products/:pid
-productsRouter.put('/:pid', (req, res) => {
-  const productId = parseInt(req.params.pid);
-  const updatedFields = req.body;
-  productManager.updateProduct(productId, updatedFields);
-  res.json({ message: `Producto con ID ${productId} actualizado.` });
-});
+router.post('/', uploader.single('thumbnail'), async (req, res) => {
+    try{
 
-// Ruta DELETE /api/products/:pid
-productsRouter.delete('/:pid', (req, res) => {
-  const productId = parseInt(req.params.pid);
-  productManager.deleteProduct(productId);
-  res.json({ message: `Producto con ID ${productId} eliminado.` });
-});
+        if(!req.file){
+            res.status(500).send("No subiste la imagen")
+        }
 
-export default productsRouter;
+        const data = req.body
+        const filename = req.file.filename
+
+        data.thumbnail = `http://localhost:8080/images/${filename}`
+
+        const producto = await productManager.getAddProducts(data)
+
+        res.send(producto)
+    } catch (err) {
+        res.status(500).send("Error al cargar el producto: " + err)
+    }
+
+})
+
+router.put('/:id', uploader.single('thumbnail'), async (req, res) => {
+    try{
+        const id = parseInt(req.params.id)
+        const data = req.body
+
+        if(req.file){
+            const filename = req.file.filename
+            data.thumbnail = `http://localhost:8080/images/${filename}`
+        }
+
+        const producto = await productManager.updateProduct(id, data)
+
+        res.send(producto)
+    } catch (err) {
+        res.status(500).send("Error al querer upgradear el producto: " + err)
+    }
+})
+
+router.delete('/:id', async (req, res) => {
+    try{
+        const id = parseInt(req.params.id)
+
+        const productEliminated = await productManager.deleteProduct(id)
+
+        res.send(productEliminated)
+    } catch (err) {
+        res.status(500).send("Error al querer eliminar el producto: " + err)
+    }
+})
+
+export default router

@@ -1,33 +1,47 @@
-import express from 'express';
-import {CartManager} from './src/manager/cartManager.js';
-const cartsRouter = express.Router();
-const cartManager = new CartManager(); 
+import { Router } from "express";
+import { CartManager } from "../managers/cartManager.js";
 
-// Ruta raíz POST /api/carts/
-cartsRouter.post('/', (req, res) => {
-  const newCart = req.body;
-  cartManager.addCart(newCart);
-  res.status(201).json(newCart);
-});
+const router = Router()
+const cartManager = new CartManager()
 
-// Ruta GET /api/carts/:cid
-cartsRouter.get('/:cid', (req, res) => {
-  const cartId = parseInt(req.params.cid);
-  const cart = cartManager.getCartById(cartId);
-  if (cart) {
-    res.json(cart);
-  } else {
-    res.status(404).json({ error: `Carrito con ID ${cartId} no encontrado.` });
-  }
-});
+router.get('/', async (req, res) => {
+    try{
+        const carts = await cartManager.getCarts()
+        res.send(carts)
 
-// Ruta POST /api/carts/:cid/product/:pid
-cartsRouter.post('/:cid/product/:pid', (req, res) => {
-  const cartId = parseInt(req.params.cid);
-  const productId = parseInt(req.params.pid);
-  const quantity = parseInt(req.body.quantity || 1);
-  cartManager.addProductToCart(cartId, productId, quantity);
-  res.json({ message: `Producto con ID ${productId} añadido al carrito con ID ${cartId}.` });
-});
+    } catch (err) {
+        res.status(500).send("Error al obtener los carritos" + err)
+    }
+})
 
-export default cartsRouter;
+router.get('/:cid', async (req, res) => {
+    const id = parseInt(req.params.cid)
+    const cart = await cartManager.getCartById(id)
+    res.send(cart)
+
+})
+
+router.post('/', async (req, res) => {
+    try {
+        const cart = await cartManager.createCart()
+        res.send(cart)
+    } catch (err) {
+        res.status(500).send("Error al crear el carrito" + err)
+    }
+})
+
+router.post('/:cid/product/:pid', async (req, res) => {
+    try{
+        const cid = parseInt(req.params.cid)
+        const pid = parseInt(req.params.pid)
+
+        const product = await cartManager.addProductInCart(cid, pid)
+
+        res.send(product)
+
+    } catch (err) {
+        res.status(500).send("Error al agregar producto al carrito" + err)
+    }
+})
+
+export default router

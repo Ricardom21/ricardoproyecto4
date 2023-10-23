@@ -1,5 +1,5 @@
 {
-  "name": "desafio-03",
+  "name": "nodemon",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
@@ -19,11 +19,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ricardom21/ricardoproyecto4.git"
+    "url": "git+https://github.com/Ricardom21/ricardoproyecto4.git"
   },
   "bugs": {
     "url": "https://github.com/Ricardom21/ricardoproyecto4/issues"
   },
   "homepage": "https://github.com/Ricardom21/ricardoproyecto4#readme",
+  "devDependencies": {},
   "description": ""
 }
