@@ -3,7 +3,7 @@ import ProductManager  from './ProductManager.js'
 
 const productManager = new ProductManager()
 
-export class CartManager {
+export  default class  CartManager {
     constructor (){
         this.path = './src/files/carts.json',
         this.carts = []
@@ -88,3 +88,5 @@ export class CartManager {
         }
     }
 }
+
+
