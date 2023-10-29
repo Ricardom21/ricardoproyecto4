@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Productos en Tiempo Real</title>
+</head>
+<body>
+    <h1>Lista de Productos en Tiempo Real</h1>
+    <ul>
+        {{#each productos}}
+            <li>
+                <img src="{{this.thumbnail}}" alt="{{this.title}}">
+                <p>{{this.title}} - Precio: {{this.price}}</p>
+                <p>{{this.description}}</p>
+                <p>Stock: {{this.stock}}</p>
+            </li>
+        {{/each}}
+    </ul>
+
+    <!-- Lógica para manejar actualizaciones en tiempo real mediante WebSockets -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('productos', function(productos) {
+            // Actualizar la lista de productos en la vista en tiempo real
+            const productList = document.querySelector('ul');
+            productList.innerHTML = '';
+
+            productos.forEach(producto => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <img src="${producto.thumbnail}" alt="${producto.title}">
+                    <p>${producto.title} - Precio: ${producto.price}</p>
+                    <p>${producto.description}</p>
+                    <p>Stock: ${producto.stock}</p>
+                `;
+                productList.appendChild(listItem);
+            });
+        });
+    </script>
+</body>
+</html>
+
+<html>
+<head>
+    <title>Lista de Productos en Tiempo Real</title>
+</head>
+<body>
+    <h1>Lista de Productos en Tiempo Real</h1>
+    <ul>
+        {{#each productos}}
+            <li>
+                <img src="{{this.thumbnail}}" alt="{{this.title}}">
+                <p>{{this.title}} - Precio: {{this.price}}</p>
+                <p>{{this.description}}</p>
+                <p>Stock: {{this.stock}}</p>
+            </li>
+        {{/each}}
+    </ul>
+
+    <!-- Lógica para manejar actualizaciones en tiempo real mediante WebSockets -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('productos', function(productos) {
+            // Actualizar la lista de productos en la vista en tiempo real
+            const productList = document.querySelector('ul');
+            productList.innerHTML = '';
+
+            productos.forEach(producto => {
+                const listItem = document.createElement('li');
+               
+
+<html>
+<head>
+    <title>Lista de Productos en Tiempo Real</title>
+</head>
+<body>
+    <h1>Lista de Productos en Tiempo Real</h1>
+    <ul>
+        {{#each productos}}
+            <li>
+                <img src="{{this.thumbnail}}" alt="{{this.title}}">
+                <p>{{this.title}} - Precio: {{this.price}}</p>
+                <p>{{this.description

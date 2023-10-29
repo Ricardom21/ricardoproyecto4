@@ -1,80 +1,29 @@
-import { Router } from "express";
-import ProductManager from "../managers/ProductManager.js";
-import { uploader } from "../utils.js";
+import { Router } from 'express';
+import path from 'path';
+import fs from 'fs';
 
-const router = Router()
-const productManager = new ProductManager()
+const router = Router();
+const productsFilePath = path.join(__dirname, '../files/productos.json');
 
-router.get('/', async (req,res) =>{
-    try{
-        const limit = parseInt(req.query?.limit)
-        const products = await productManager.getProducts(limit)
-        res.send(products)
+// Ruta para mostrar la lista de productos en la vista 'home.handlebars'
+router.get('/home', (req, res) => {
+  try {
+    const productos = cargarProductos();
+    res.render('home', { productos });
+  } catch (err) {
+    res.status(500).send('Error al cargar la vista de productos: ' + err);
+  }
+});
 
-    } catch (err) {
-        res.status(500).send("Error al obtener los productos" + err)
-    }
-})
+// Función para cargar los productos desde el archivo JSON
+const cargarProductos = () => {
+  try {
+    const datos = fs.readFileSync(productsFilePath, 'utf-8');
+    return JSON.parse(datos);
+  } catch (error) {
+    console.error('Error al cargar los productos:', error);
+    return [];
+  }
+};
 
-router.get('/:id', async (req,res) => {
-    try{
-        const id = parseInt(req.params.id)
-        const producto = await productManager.getProductById(id)
-        res.send(producto)
-    } catch (err) {
-        res.status(500).send("Error al obtener el producto: " + err)
-    }
-})
-
-router.post('/', uploader.single('thumbnail'), async (req, res) => {
-    try{
-
-        if(!req.file){
-            res.status(500).send("No subiste la imagen")
-        }
-
-        const data = req.body
-        const filename = req.file.filename
-
-        data.thumbnail = `http://localhost:8080/images/${filename}`
-
-        const producto = await productManager.getAddProducts(data)
-
-        res.send(producto)
-    } catch (err) {
-        res.status(500).send("Error al cargar el producto: " + err)
-    }
-
-})
-
-router.put('/:id', uploader.single('thumbnail'), async (req, res) => {
-    try{
-        const id = parseInt(req.params.id)
-        const data = req.body
-
-        if(req.file){
-            const filename = req.file.filename
-            data.thumbnail = `http://localhost:8080/images/${filename}`
-        }
-
-        const producto = await productManager.updateProduct(id, data)
-
-        res.send(producto)
-    } catch (err) {
-        res.status(500).send("Error al querer upgradear el producto: " + err)
-    }
-})
-
-router.delete('/:id', async (req, res) => {
-    try{
-        const id = parseInt(req.params.id)
-
-        const productEliminated = await productManager.deleteProduct(id)
-
-        res.send(productEliminated)
-    } catch (err) {
-        res.status(500).send("Error al querer eliminar el producto: " + err)
-    }
-})
-
-export default router
+export default router;
