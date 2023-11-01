@@ -1,10 +1,11 @@
 //Importamos FS
 import fs from 'fs'
+import path from 'path'
 
 //creo la clase 
-export default class ProductManager {
+ class ProductManager {
     constructor (){
-        this.path = "./src/files/productos.json"
+        this.path = path
         this.products = []
     }
 
@@ -147,3 +148,6 @@ export default class ProductManager {
         }
     }
 }
+
+
+export const productManager = new ProductManager('./src/files/products.json')
