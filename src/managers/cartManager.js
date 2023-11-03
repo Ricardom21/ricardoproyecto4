@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { productManager } from './productManager.js'
+import { productManager } from './ProductManager.js'
 
 class CartManager {
     #path

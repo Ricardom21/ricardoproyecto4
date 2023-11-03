@@ -1,46 +1,46 @@
-import { Router } from "express";
-import  CartManager  from "../managers/cartManager.js";
+import { Router } from 'express'
+import { cartManager } from '../managers/CartManager.js'
 
 const router = Router()
-const cartManager = new CartManager()
-
-router.get('/', async (req, res) => {
-    try{
-        const carts = await cartManager.getCarts()
-        res.send(carts)
-
-    } catch (err) {
-        res.status(500).send("Error al obtener los carritos" + err)
-    }
-})
-
-router.get('/:cid', async (req, res) => {
-    const id = parseInt(req.params.cid)
-    const cart = await cartManager.getCartById(id)
-    res.send(cart)
-
-})
 
 router.post('/', async (req, res) => {
     try {
-        const cart = await cartManager.createCart()
-        res.send(cart)
-    } catch (err) {
-        res.status(500).send("Error al crear el carrito" + err)
+        const addedCart = await cartManager.addCart()
+        res.status(201).json({ message: 'Cart created', addedCart })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error: error }) 
     }
 })
 
 router.post('/:cid/product/:pid', async (req, res) => {
-    try{
-        const cid = parseInt(req.params.cid)
-        const pid = parseInt(req.params.pid)
+    try {
+        const cartId = parseInt(req.params.cid)
+        const productId = parseInt(req.params.pid)
 
-        const product = await cartManager.addProductInCart(cid, pid)
+        if (productId <= 0) return res.status(404).json({ error: 'Invalid product' })
 
-        res.send(product)
+        const cart = await cartManager.addProductsToCart(cartId, productId)
+    
+        if (!cart) return res.status(404).json({ error: `The cart with id ${cartId} does not exist` })
+        
+        res.status(200).json({ message: `Product with id ${productId} added to cart`, cart })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error: error })
+    }
+})
 
-    } catch (err) {
-        res.status(500).send("Error al agregar producto al carrito" + err)
+router.get('/:cid', async (req, res) => {
+    try {
+        const cartId = parseInt(req.params.cid)
+        const cart = await cartManager.getCartById(cartId)
+
+        if (!cart) return res.status(404).json({ error: `The cart with id ${cartId} does not exist` })
+        res.status(200).json({ message: cart })   
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error: error })
     }
 })
 
