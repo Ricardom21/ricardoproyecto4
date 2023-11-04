@@ -6,11 +6,11 @@ import productsRouter from './router/products.router.js'
 import cartsRouter from './router/carts.router.js'
 import viewsRouter from './router/views.router.js'
 
+
 const app = express();
 app.use(express.json());
 
 const PORT = 8080 
-
 const httpServer = app.listen(PORT, () => console.log(`Server is running on ${PORT}`))
 
 const io = new Server(httpServer)
@@ -31,7 +31,7 @@ app.use('/api/carts', cartsRouter)
 app.use('/home', viewsRouter)
 
 io.on('connection', socket => {
-  console.log('New client connected to the Server')
+  console.log('Nuevo cliente conectado')
   socket.on('productList', data => {
       io.emit('updatedProducts', data)
   })

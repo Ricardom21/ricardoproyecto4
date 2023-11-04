@@ -1,7 +1,11 @@
-<div class="table-responsive container bg-dark my-5">
+<div class="table-responsive container bg-dark my-5"> 
+
     <h2 class="text-center text-white text-uppercase pt-2">Lista de Productos</h2>
+
     <hr>
+
     <table class="table table-bordered table-striped table-hover text-center">
+
         <thead>
             <tr>
                 <th>Producto</th>
@@ -12,11 +16,12 @@
                 <th>Stock</th>
             </tr>
         </thead>
+
         <tbody>
             {{#each allProducts}}
                 <tr>
-                    <td class="text-start">{{this.title}}</td>
-                    <td class="text-start">{{this.description}}</td>
+                    <td>{{this.title}}</td>
+                    <td>{{this.description}}</td>
                     <td>{{this.price}}</td>
                     <td>{{this.code}}</td>
                     <td>{{this.category}}</td>
@@ -24,5 +29,6 @@
                 </tr>
             {{/each}}
         </tbody>
+        
     </table>
 </div>

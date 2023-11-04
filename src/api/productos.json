@@ -1,0 +1,57 @@
+[
+	{
+		"id": 1,
+		"title": "Whisky Johnnie Walker",
+		"description": "Whisky escocés de alta calidad",
+		"price": 30,
+		"thumbnail": "imagen_de_johnnie_walker.jpg",
+		"code": "WJW01",
+		"category": "Bebidas espirituosas",
+		"stock": 100,
+		"status": true
+	},
+	{
+		"id": 2,
+		"title": "Vino Malbec",
+		"description": "Vino tinto argentino",
+		"price": 15,
+		"thumbnail": "imagen_de_vino_malbec.jpg",
+		"code": "VM01",
+		"category": "Vinos",
+		"stock": 100,
+		"status": true
+	},
+	{
+		"id": 3,
+		"title": "Cerveza Corona",
+		"description": "Cerveza mexicana ligera",
+		"price": 2.5,
+		"thumbnail": "imagen_de_cerveza_corona.jpg",
+		"code": "CC01",
+		"category": "Cervezas",
+		"stock": 200,
+		"status": true
+	},
+	{
+		"id": 4,
+		"title": "Tequila José Cuervo",
+		"description": "Tequila mexicano",
+		"price": 25,
+		"thumbnail": "imagen_de_tequila_jose_cuervo.jpg",
+		"code": "TJC01",
+		"category": "Bebidas espirituosas",
+		"stock": 30,
+		"status": true
+	},
+	{
+		"id": 5,
+		"title": "Ron Bacardi",
+		"description": "Ron cubano",
+		"price": 20,
+		"thumbnail": "imagen_de_ron_bacardi.jpg",
+		"code": "RB01",
+		"category": "Bebidas espirituosas",
+		"stock": 40,
+		"status": true
+	}
+]

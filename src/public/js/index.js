@@ -38,7 +38,7 @@ form.addEventListener('submit', async (e) => {
                 socket.emit('productList', results.products)
 
                 Toastify({
-                    text: 'New product added successfully',
+                    text: 'Nuevo producto agregado satisfactoriamente',
                     duration: 2000,
                     newWindow: true,
                     close: true,
@@ -46,9 +46,7 @@ form.addEventListener('submit', async (e) => {
                     position: 'right', 
                     stopOnFocus: true, 
                     style: {
-                        background: '#32CD32',
-                        borderRadius: '10px',
-                        fontWeight: '600',
+                        background: "#008000",
                     },
                     onClick: function(){} 
                 }).showToast()
@@ -68,16 +66,16 @@ form.addEventListener('submit', async (e) => {
 
 const deleteProduct = async (id) => {
     try {
-      const res = await fetch(`/api/products/${id}`, {
+        const res = await fetch(`/api/products/${id}`, {
         method: "DELETE",
-      });
-      const result = await res.json();
-      if (result.status === "error") throw new Error(result.error);
-      else socket.emit("productList", result.products);
-  
-    
-      Toastify({
-        text: "product removed successfully",
+        });
+        const result = await res.json();
+        if (result.status === "error") throw new Error(result.error);
+        else socket.emit("productList", result.products);
+
+
+        Toastify({
+        text: "Producto eliminado satisfactoriamente",
         duration: 2000,
         newWindow: true,
         close: true,
@@ -85,17 +83,17 @@ const deleteProduct = async (id) => {
         position: "right", 
         stopOnFocus: true, 
         style: {
-          background: "#ff0000",
+            background: "#ff0000",
         },
         onClick: function(){} 
-      }).showToast();
-  
-    } catch (error) {
-      console.log(error);
-    }
-  };
+        }).showToast();
 
-  socket.on('updatedProducts', products => {      
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+socket.on('updatedProducts', products => {      
     tbody.innerHTML = ''
 
     products.forEach(item => {              
