@@ -106,7 +106,7 @@ socket.on('updatedProducts', products => {
             <td>${item.category}</td>
             <td>${item.stock}</td>
             <td>
-                <button class='btn btn-danger' onclick='deleteProduct(${item.id})' id='btnDelete'>Eliminar</button>
+                <button class='btn btn-danger' onclick='deleteProduct(${item._id})' id='btnDelete'>Eliminar</button>
             </td>
         `
         tbody.appendChild(tr)
